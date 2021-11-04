@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="album_size">85dp</dimen>
+    <dimen name="camera_size">105dp</dimen>
+    <dimen name="camera_inner_size">90dp</dimen>
+    <dimen name="cross_size">50dp</dimen>
+    <dimen name="devider_size">3dp</dimen>
+</resources>

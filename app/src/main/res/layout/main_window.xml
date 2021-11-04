@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!--分割线设计-->
+    <View
+        android:id="@+id/main_window_divider"
+        android:layout_width="409dp"
+        android:layout_height="@dimen/devider_size"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/camera_shot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965" />
+    <!-- 这部分是相册相关的设计-->
+    <ImageView
+        android:id="@+id/camera_icon"
+        android:layout_width="@dimen/album_size"
+        android:layout_height="@dimen/album_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958"
+        app:srcCompat="?android:attr/galleryItemBackground" />
+
+    <Button
+        android:id="@+id/album_frame"
+        android:layout_width="@dimen/album_size"
+        android:layout_height="@dimen/album_size"
+        android:background="@drawable/cir_rectangle"
+        app:backgroundTint="@null"
+
+        app:layout_constraintBottom_toBottomOf="@+id/camera_icon"
+        app:layout_constraintEnd_toEndOf="@+id/camera_icon"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/camera_icon"
+        app:layout_constraintTop_toTopOf="@+id/camera_icon"
+        app:layout_constraintVertical_bias="1.0" />
+    <!--这部分是摄像标志相关的设计-->
+    <Button
+        android:id="@+id/camera_shot"
+        android:layout_width="@dimen/camera_size"
+        android:layout_height="@dimen/camera_size"
+        android:background="@drawable/round_button"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.974" />
+
+    <!--load cover or sth else-->
+    <SurfaceView
+        android:id="@+id/surfaceViewPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/main_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
