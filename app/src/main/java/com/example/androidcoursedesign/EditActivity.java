@@ -3,16 +3,21 @@ package com.example.androidcoursedesign;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class EditActivity extends AppCompatActivity {
+import java.io.File;
 
+public class EditActivity extends AppCompatActivity {
+    String weather;
+    //此处可以添加更多变量记录
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,11 +27,17 @@ public class EditActivity extends AppCompatActivity {
         Intent intent=getIntent();
         String fromWhich=intent.getStringExtra("FromWhich");
         Log.d("EDIT_ACT_TAG",fromWhich);
-
+        ImageView tookPic = findViewById(R.id.album_chose_cancel);
+        String path = intent.getStringExtra("path");
 
         // TODO:
         //    页面需要加载出上层活动选择的照片
-
+        //      同preview不知道可不可行
+        if(path != null){
+            tookPic.setImageURI(Uri.fromFile(new File(path)));
+            //照片也进行一个旋转
+            tookPic.setRotation(90);
+        }
 
 
         //模式按钮加载菜单选项
@@ -51,7 +62,7 @@ public class EditActivity extends AppCompatActivity {
         editCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin"+fromWhich);
             }
         });
         //TODO:
@@ -60,7 +71,8 @@ public class EditActivity extends AppCompatActivity {
         cutPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoEditActivity");
+                startActivity(intent);
             }
         });
 
@@ -71,7 +83,9 @@ public class EditActivity extends AppCompatActivity {
         confirmEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                intent.putExtra("Mode",weather);
+                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoComputeActivity");
+                startActivity(intent);
             }
         });
 
@@ -91,6 +105,12 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Toast.makeText(getApplicationContext(),menuItem.getTitle(),Toast.LENGTH_SHORT).show();
+                if(menuItem.getItemId()==R.id.sunny)
+                    weather="sunny";
+                else if(menuItem.getItemId()==R.id.cloudy)
+                    weather="cloudy";
+                else
+                    weather="default";
                 return false;
             }
         });

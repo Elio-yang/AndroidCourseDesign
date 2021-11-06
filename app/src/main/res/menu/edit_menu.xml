@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/sundy"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+<!--        单选框-->
+        <item
+        android:id="@+id/sunny"
         android:title="晴天"
-        
-        />
-    <item
+            />
+        <item
         android:id="@+id/cloudy"
         android:title="阴天" />
+    </group>
+
+    <group android:checkableBehavior="all">
+<!--        多选框-->
+        <item
+            android:id="@+id/all1"
+            android:title="多选1"
+            />
+        <item
+            android:id="@+id/all2"
+            android:title="多选2" />
+    </group>
+<!--    嵌套菜单-->
+    <item
+        android:id="@+id/more"
+        app:showAsAction="ifRoom"
+        android:title="more">
+        <menu>
+            <item
+                android:id="@+id/other1"
+                android:title="other1"/>
+            <item
+                android:id="@+id/other2"
+                android:title="other2"/>
+        </menu>
+    </item>
 </menu>
