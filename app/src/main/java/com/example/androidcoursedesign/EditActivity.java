@@ -27,7 +27,7 @@ public class EditActivity extends AppCompatActivity {
         Intent intent=getIntent();
         String fromWhich=intent.getStringExtra("FromWhich");
         Log.d("EDIT_ACT_TAG",fromWhich);
-        ImageView tookPic = findViewById(R.id.album_chose_cancel);
+        ImageView tookPic = findViewById(R.id.takePicture);
         String path = intent.getStringExtra("path");
 
         // TODO:
