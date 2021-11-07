@@ -1,6 +1,6 @@
 package com.example.androidcoursedesign;
 
-import androidx.annotation.ContentView;
+//import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;

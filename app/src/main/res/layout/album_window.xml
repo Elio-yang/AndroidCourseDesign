@@ -77,8 +77,9 @@
     <!--显示图片-->
     <ImageView
         android:id="@+id/album_pic1"
-        android:layout_width="84dp"
-        android:layout_height="81dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/edit_lower_divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.048"

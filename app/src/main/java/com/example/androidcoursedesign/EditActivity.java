@@ -3,25 +3,38 @@ package com.example.androidcoursedesign;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class EditActivity extends AppCompatActivity {
+import java.io.ByteArrayOutputStream;
 
+public class EditActivity extends AppCompatActivity {
+    private Bitmap bitmap;
+    private ImageView imv;  //还需绑定控件
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_window);
 
-
         Intent intent=getIntent();
-        String fromWhich=intent.getStringExtra("FromWhich");
-        Log.d("EDIT_ACT_TAG",fromWhich);
+        if(intent.hasExtra("byteArray")){
+            imv = new ImageView(this);
+            bitmap = BitmapFactory.decodeByteArray(intent.getByteArrayExtra("byteArry"),0,intent.getByteArrayExtra("byteArray").length);
+            imv.setImageBitmap(bitmap);
+        }
+
+
+        //String fromWhich=intent.getStringExtra("FromWhich");
+        //Log.d("EDIT_ACT_TAG",fromWhich);
+
 
 
         // TODO:
@@ -60,7 +73,11 @@ public class EditActivity extends AppCompatActivity {
         cutPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intentCut = new Intent(EditActivity.this,DoEditActivity.class);
+                ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50,bs);
+                intentCut.putExtra("byteArray",bs.toByteArray());
+                startActivity(intentCut);
             }
         });
 
@@ -85,7 +102,7 @@ public class EditActivity extends AppCompatActivity {
     //    加入选项值，不同的选项给后续算法不同的参数
     private void  showModeChioce(View thisView){
         PopupMenu modeMenu=new PopupMenu(this,thisView);
-        modeMenu.getMenuInflater().inflate(R.menu.edit_menu,modeMenu.getMenu());
+        //modeMenu.getMenuInflater().inflate(R.menu.edit_menu,modeMenu.getMenu());
         //菜单点击
         modeMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
