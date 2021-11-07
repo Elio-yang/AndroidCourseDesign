@@ -24,11 +24,14 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.edit_window);
 
 
-        Intent intent=getIntent();
-        String fromWhich=intent.getStringExtra("FromWhich");
-        Log.d("EDIT_ACT_TAG",fromWhich);
+//        该段代码会导致无法切换到edit_window
+//        Intent intent=getIntent();
+//        String fromWhich=intent.getStringExtra("FromWhich");
+//        Log.d("EDIT_ACT_TAG",fromWhich);
+
+
         ImageView tookPic = findViewById(R.id.takePicture);
-        String path = intent.getStringExtra("path");
+        String path = getIntent().getStringExtra("path");
 
         // TODO:
         //    页面需要加载出上层活动选择的照片
@@ -58,7 +61,7 @@ public class EditActivity extends AppCompatActivity {
         // 需要上一个活动发消息 告诉是那个活动来到的这( 数字参数形式 )
         // 从而可以回退到正确的上层活动
         // 使用Intent
-        Button editCancel=findViewById(R.id.cancel_frame);
+        Button editCancel=findViewById(R.id.edit_cancel_frame);
         editCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

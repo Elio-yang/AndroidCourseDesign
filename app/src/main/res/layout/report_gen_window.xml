@@ -6,4 +6,112 @@
     android:layout_height="match_parent"
     tools:context=".ReportGenActivity">
 
+    <ImageView
+        android:id="@+id/pattern_choose_cancel"
+        android:layout_width="@dimen/cross_size"
+        android:layout_height="@dimen/cross_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        app:srcCompat="@android:drawable/ic_delete" />
+    <Button
+        android:id="@+id/pattern_choose_cancel_frame"
+        android:layout_width="@dimen/cross_size"
+        android:layout_height="@dimen/cross_size"
+        android:background="@drawable/cir_rectangle"
+        app:backgroundTint="@null"
+
+        app:layout_constraintBottom_toBottomOf="@+id/pattern_choose_cancel"
+        app:layout_constraintEnd_toEndOf="@+id/pattern_choose_cancel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/pattern_choose_cancel"
+        app:layout_constraintTop_toTopOf="@+id/pattern_choose_cancel"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/pattern_choose_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="方式选择"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pattern_choose_upper_dirver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toEndOf="@+id/pattern_choose_cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.592" />
+
+    <View
+        android:id="@+id/pattern_choose_upper_dirver"
+        android:layout_width="409dp"
+        android:layout_height="@dimen/devider_size"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/pattern_choose_lower_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pattern_choose_cancel"
+        app:layout_constraintVertical_bias="0.021" />
+
+    <!--下分割线-->
+    <View
+        android:id="@+id/pattern_choose_lower_divider"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.868" />
+
+    <ImageView
+        android:id="@+id/pattern_cho_Img"
+        android:layout_width="408dp"
+        android:layout_height="552dp"
+        app:layout_constraintBottom_toTopOf="@+id/pattern_choose_lower_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pattern_choose_upper_dirver"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/region_recognition"
+        android:layout_width="190dp"
+        android:layout_height="59dp"
+        android:background="@drawable/cir_rectangle_color"
+        android:text="框选识别"
+        android:textColor="@color/purple_200"
+        android:textSize="25sp"
+        app:backgroundTint="@null"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pattern_choose_lower_divider"
+        app:layout_constraintVertical_bias="0.589" />
+
+    <Button
+        android:id="@+id/automatic_recognition"
+        android:layout_width="190dp"
+        android:layout_height="59dp"
+        android:background="@drawable/cir_rectangle_color"
+        android:text="自动识别"
+        android:textColor="@color/purple_200"
+
+        android:textSize="25sp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+
+        app:layout_constraintStart_toEndOf="@+id/region_recognition"
+        app:layout_constraintTop_toBottomOf="@+id/pattern_choose_lower_divider"
+        app:layout_constraintVertical_bias="0.578" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
