@@ -3,6 +3,7 @@ package com.example.androidcoursedesign;
 import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.ImageView;
 import java.io.File;
 
 public class PreviewActivity extends AppCompatActivity {
-
+    private final String curAct= "PreviewActivity";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,10 @@ public class PreviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO :
                 //    进入编辑视图
+                //    wj：加了一下fromwhich信息传送，原来没做
+                Intent intent=new Intent(PreviewActivity.this,EditActivity.class);
+                intent.putExtra("FromWhich",curAct);
+                startActivity(intent);
             }
         });
 
