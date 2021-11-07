@@ -6,5 +6,9 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "AndroidCourseDesign"
+rootProject.name = "androiddesign"
 include ':app'
+
+
+ //Top-level build file where you can add configuration options common to all sub-projects/modules.
+

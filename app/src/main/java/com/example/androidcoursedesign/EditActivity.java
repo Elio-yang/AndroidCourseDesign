@@ -18,10 +18,10 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_window);
 
-
-        Intent intent=getIntent();
-        String fromWhich=intent.getStringExtra("FromWhich");
-        Log.d("EDIT_ACT_TAG",fromWhich);
+//        该段代码会导致无法切换到edit_window
+//        Intent intent=getIntent();
+//        String fromWhich=intent.getStringExtra("FromWhich");
+//        Log.d("EDIT_ACT_TAG",fromWhich);
 
 
         // TODO:
@@ -47,7 +47,7 @@ public class EditActivity extends AppCompatActivity {
         // 需要上一个活动发消息 告诉是那个活动来到的这( 数字参数形式 )
         // 从而可以回退到正确的上层活动
         // 使用Intent
-        Button editCancel=findViewById(R.id.cancel_frame);
+        Button editCancel=findViewById(R.id.edit_cancel_frame);
         editCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

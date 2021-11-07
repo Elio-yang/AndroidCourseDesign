@@ -15,3 +15,10 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+// 待解决图片裁剪问题
+//allprojects {
+//    repositories {
+//        jcenter()
+//        maven { url "https://jitpack.io" }
+//    }
+//}
