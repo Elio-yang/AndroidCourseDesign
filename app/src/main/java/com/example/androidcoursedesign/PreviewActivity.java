@@ -2,6 +2,7 @@ package com.example.androidcoursedesign;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class PreviewActivity extends AppCompatActivity {
-
+    private final String curAct= "PreviewActivity";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +53,19 @@ public class PreviewActivity extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent it1 = new Intent(PreviewActivity.this, EditActivity.class);
                 it1.putExtra("path", path);
                 it1.putExtra("fileName", fileName);
                 startActivity(it1);
+
+                //TODO :
+                //    进入编辑视图
+                //    wj：加了一下fromwhich信息传送，原来没做
+                //Intent intent=new Intent(PreviewActivity.this,EditActivity.class);
+                //intent.putExtra("FromWhich",curAct);
+                //startActivity(intent);
+
             }
         });
 
