@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -78,10 +80,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 String path = "";
-                path=saveFile(data);
+                String fileName="";
+                path=saveFile(data,fileName);
                 if (!path.equals("")) {
                     Intent it = new Intent(MainActivity.this, PreviewActivity.class);
                     it.putExtra("path", path);
+                    it.putExtra("fileName", fileName);
                     startActivity(it);
                 } else {
                     Toast.makeText(MainActivity.this, "保存照片失败", Toast.LENGTH_SHORT).show();
@@ -89,20 +93,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    // TODO:
+    //    TODO:
     //    保存在哪儿了？
     //    是不是需要更改命名方式？
     //    能不能存到系统相册？
-    private String saveFile(byte[] bytes) {
+    private String saveFile(byte[] bytes,String fileName) {
         try {
-            File file = File.createTempFile("img", ".png");
+//            File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
+//            if (!appDir.exists()) {
+//                appDir.mkdir();
+//            }
+
+            fileName = System.currentTimeMillis() + ".jpg";
+            File file=File.createTempFile(fileName,"");
+//          File file = new File(appDir, fileName);
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.flush();
             fos.close();
             Log.e("TEST_FILE",file.getAbsolutePath());
             //     /data/data/com.example.androidcoursedesign/cache/img-xxxxx.png
+            MainActivity.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(file.getPath()))));
             return file.getAbsolutePath();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
