@@ -29,9 +29,9 @@ public class EditActivity extends AppCompatActivity {
 //        String fromWhich=intent.getStringExtra("FromWhich");
 //        Log.d("EDIT_ACT_TAG",fromWhich);
 
-
+        Intent intent = getIntent();
         ImageView tookPic = findViewById(R.id.takePicture);
-        String path = getIntent().getStringExtra("path");
+        String path = intent.getStringExtra("path");
 
         // TODO:
         //    页面需要加载出上层活动选择的照片
@@ -65,7 +65,7 @@ public class EditActivity extends AppCompatActivity {
         editCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin"+fromWhich);
+                finish();
             }
         });
         //TODO:
