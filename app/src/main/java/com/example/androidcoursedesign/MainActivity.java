@@ -1,8 +1,12 @@
 package com.example.androidcoursedesign;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.*;
@@ -20,7 +25,10 @@ import java.io.*;
 public class MainActivity extends AppCompatActivity {
     private SurfaceView surfaceViewPreview;
     private Camera camera = null;
-    //实现接口 进入则是摄像头画面
+    //public static final int TAKE_PHOTO = 1;
+    public static final int CHOOSE_PHOTO = 2;
+    private Intent intent_1;
+
     private final SurfaceHolder.Callback cpHolderCallback = new SurfaceHolder.Callback() {
         //surface创建时触发，开启加载
         @Override
@@ -36,12 +44,35 @@ public class MainActivity extends AppCompatActivity {
             stopPreview();
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        intent_1=new Intent(this,AlbumActivity.class);//创建跳转到Albums显示的窗口的Intent
         setContentView(R.layout.main_window);
-        bindViews();
+        //bindViews();
+        alumOperation();
+
     }
+
+    private void openAlbum() {
+        startActivity(intent_1);//进入album的窗口界面
+    }
+
+    private void alumOperation(){
+        Button chooseFromAlbum = findViewById(R.id.album_frame);
+        chooseFromAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PHOTO);
+                } else {
+                    openAlbum();//打开album的界面
+                }
+            }
+        });
+    }
+
     private void bindViews() {
         surfaceViewPreview = findViewById(R.id.surfaceViewPreview);
         Button takeAShot = findViewById(R.id.camera_shot);

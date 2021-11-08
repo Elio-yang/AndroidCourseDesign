@@ -1,14 +1,15 @@
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
-    }
-}
+//
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//        jcenter() // Warning: this repository is going to shut down soon
+//    }
+//}
 rootProject.name = "androiddesign"
 include ':app'
+//Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-
- //Top-level build file where you can add configuration options common to all sub-projects/modules.
-
+//include ':app'
+//rootProject.name='AndroidCourseDesign'
