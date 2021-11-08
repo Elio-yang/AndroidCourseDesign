@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         intent_1=new Intent(this,AlbumActivity.class);//创建跳转到Albums显示的窗口的Intent
         setContentView(R.layout.main_window);
-        //bindViews();
+        bindViews();
         alumOperation();
 
     }
