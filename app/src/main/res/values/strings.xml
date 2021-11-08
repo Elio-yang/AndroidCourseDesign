@@ -17,4 +17,5 @@
     <string name="album_edit">编辑</string>
     <string name="album_confirm">确认</string>
     <string name="takePicConfirm">照片确认</string>
+    <string name="do_edit_title">图像裁剪</string>
 </resources>
