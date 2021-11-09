@@ -132,7 +132,7 @@ public class EditActivity extends AppCompatActivity {
     //    加入选项值，不同的选项给后续算法不同的参数
     private void  showModeChioce(View thisView){
         PopupMenu modeMenu=new PopupMenu(this,thisView);
-        //modeMenu.getMenuInflater().inflate(R.menu.edit_menu,modeMenu.getMenu());
+        modeMenu.getMenuInflater().inflate(R.menu.edit_menu,modeMenu.getMenu());
         //菜单点击
         modeMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
