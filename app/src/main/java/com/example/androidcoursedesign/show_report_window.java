@@ -54,7 +54,7 @@ public class show_report_window extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.MainActivity");
+                intent.setClassName("com.example.androidcoursedesign","com.example.androidcoursedesign.MainActivity");
                 startActivity(intent);
             }
         });
