@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+<!--        单选框-->
+        <item
+        android:id="@+id/QQ"
+        android:title="转发给QQ好友"
+            />
+        <item
+        android:id="@+id/wecircle"
+        android:title="转发到朋友圈" />
+
+        <item
+            android:id="@+id/wefriend"
+            android:title="转发给微信好友"
+            />
+        <item
+            android:id="@+id/save"
+            android:title="保存到本地" />
+
+    </group>
+
+</menu>

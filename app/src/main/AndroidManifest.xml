@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.androidcoursedesign">
+    package="com.example.androidcoursedesign" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +15,11 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AndroidCourseDesign">
-<!--        android:theme="@style/AppTheme">-->
-
+        android:theme="@style/Theme.AndroidCourseDesign" >
+        <activity
+            android:name=".show_report_window"
+            android:exported="false" />
+        <!-- android:theme="@style/AppTheme"> -->
         <activity
             android:name=".ReportGenActivity"
             android:exported="true" />
@@ -40,7 +42,7 @@
             android:theme="@style/Theme.AndroidCourseDesign.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,6 +52,3 @@
     </application>
 
 </manifest>
-
-
-
