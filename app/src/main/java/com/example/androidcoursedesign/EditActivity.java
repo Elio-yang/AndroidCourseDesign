@@ -1,9 +1,14 @@
 package com.example.androidcoursedesign;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 
 import android.graphics.Bitmap;
@@ -11,15 +16,26 @@ import android.graphics.BitmapFactory;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 
 // TODO :
@@ -29,8 +45,9 @@ import java.io.File;
 
 
 public class EditActivity extends AppCompatActivity {
-    String weather;
+    String weather="default";
     //此处可以添加更多变量记录
+    Collection<String> choice= new ArrayList<>();
     private Bitmap bitmap;
     private ImageView imv;  //还需绑定控件
 
@@ -73,7 +90,8 @@ public class EditActivity extends AppCompatActivity {
         mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showModeChioce(view);
+//                showModeChioce(view);
+                showPopupWindow(view);
             }
         });
 
@@ -133,26 +151,54 @@ public class EditActivity extends AppCompatActivity {
     private void  showModeChioce(View thisView){
         PopupMenu modeMenu=new PopupMenu(this,thisView);
         modeMenu.getMenuInflater().inflate(R.menu.edit_menu,modeMenu.getMenu());
+
+        modeMenu.show();
         //菜单点击
         modeMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Toast.makeText(getApplicationContext(),menuItem.getTitle(),Toast.LENGTH_SHORT).show();
-                if(menuItem.getItemId()==R.id.sunny)
-                    weather="sunny";
-                else if(menuItem.getItemId()==R.id.cloudy)
-                    weather="cloudy";
-                else
-                    weather="default";
+                weather=(String) menuItem.getTitle();
+                Toast.makeText(getApplicationContext(),weather,Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
+
         //菜单关闭
         modeMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu popupMenu) {
             }
         });
-        modeMenu.show();
+
+    }
+    //popupwindow实现多选
+    private void showPopupWindow(View thisview){
+        View view= LayoutInflater.from(EditActivity.this).inflate(R.layout.edit,null);
+        PopupWindow popupWindow= new PopupWindow(view, ActionBar.LayoutParams.WRAP_CONTENT,RadioGroup.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.showAsDropDown(thisview,0,-500);
+
+        CheckBox checkBox1 =view.findViewById(R.id.checkbox);
+        CheckBox checkBox2 =view.findViewById(R.id.checkbox1);
+        checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b)
+                    choice.add(compoundButton.getTransitionName());
+                else
+                    choice.remove(compoundButton.getTransitionName());
+            }
+        });
+        checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b)
+                    choice.add(compoundButton.getTransitionName());
+                else
+                    choice.remove(compoundButton.getTransitionName());
+            }
+        });
     }
 }
