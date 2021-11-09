@@ -30,7 +30,6 @@ public class PreviewActivity extends AppCompatActivity {
         String path = getIntent().getStringExtra("path");
         String fileName = getIntent().getStringExtra("fileName");
         File file=new File(path);
-
         tookPic.setImageURI(Uri.fromFile(file));
         //照片也进行一个旋转
         tookPic.setRotation(90);

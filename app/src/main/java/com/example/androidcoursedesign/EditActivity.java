@@ -151,6 +151,7 @@ public class EditActivity extends AppCompatActivity {
     private void  showModeChioce(View thisView){
         PopupMenu modeMenu=new PopupMenu(this,thisView);
         modeMenu.getMenuInflater().inflate(R.menu.edit_menu,modeMenu.getMenu());
+
         modeMenu.show();
         //菜单点击
         modeMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
