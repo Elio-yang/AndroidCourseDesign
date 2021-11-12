@@ -85,4 +85,15 @@
         app:layout_constraintTop_toBottomOf="@+id/do_edit_select"
         app:layout_constraintVertical_bias="0.021" />
 
+    <ImageView
+        android:id="@+id/Picture"
+        android:layout_width="410dp"
+        android:layout_height="640dp"
+        android:layout_gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/do_edit_upper_dirver"
+        app:layout_constraintVertical_bias="0.0"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

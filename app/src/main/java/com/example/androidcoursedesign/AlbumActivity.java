@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 
 public class AlbumActivity extends AppCompatActivity {
     // go to edit window
@@ -34,9 +35,11 @@ public class AlbumActivity extends AppCompatActivity {
 
     private  ImageView albumsPicture;
     public static final int CHOOSE_PHOTO = 2;
+    private  String pathAlbum;
     //private Button pestDection=null;
     //private Button pictureSave=null;
     //private Intent intent2;
+    private Uri uri=null;
 
 
     @Override
@@ -59,6 +62,17 @@ public class AlbumActivity extends AppCompatActivity {
         } else {
             openAlbum();
         }
+
+        Button confirm = findViewById(R.id.func_confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(AlbumActivity.this, EditActivity.class);
+                it.putExtra("path", pathAlbum);
+                it.putExtra("imageUri", uri.toString());
+                startActivity(it);
+            }
+        });
     }
 
     private void openAlbum() {
@@ -89,7 +103,7 @@ public class AlbumActivity extends AppCompatActivity {
     @TargetApi(19)
     private void handleImageOnKitkat(Intent data) {
         String imagePath = null;
-        Uri uri = data.getData();
+        uri = data.getData();
         if (DocumentsContract.isDocumentUri(this, uri)) {
             //如果是document类型的uri，则通过document id处理
             String docId = DocumentsContract.getDocumentId(uri);
@@ -114,7 +128,7 @@ public class AlbumActivity extends AppCompatActivity {
     }
 
     private void handleImageBeforeKitKat(Intent data){
-        Uri uri=data.getData();
+        uri=data.getData();
         String imagePath=getImagePath(uri,null);
         displayImage(imagePath);
     }
@@ -128,25 +142,16 @@ public class AlbumActivity extends AppCompatActivity {
             }
             cursor.close();
         }
+        pathAlbum=path;
         return path;
     }
     private void displayImage(String imagePath){
         if(imagePath!=null){
             Bitmap bitmap=BitmapFactory.decodeFile(imagePath);
             albumsPicture.setImageBitmap(bitmap);//将图片放置在控件上
-            //transForm(bitmap);
         }else {
             Toast.makeText(this,"得到图片失败",Toast.LENGTH_SHORT).show();
         }
-    }
-
-    // TODO: BUG HERE
-    private void transForm(Bitmap bitmap){
-        ByteArrayOutputStream bs = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,50,bs);
-        Intent intent_trans = new Intent(AlbumActivity.this,EditActivity.class);
-        intent_trans.putExtra("byteArray",bs.toByteArray());
-        startActivity(intent_trans);
     }
 
    }
