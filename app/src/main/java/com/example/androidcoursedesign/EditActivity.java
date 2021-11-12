@@ -144,9 +144,13 @@ public class EditActivity extends AppCompatActivity {
         confirmEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("Mode",weather);
-                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoComputeActivity");
-                startActivity(intent);
+//                intent.putExtra("Mode",weather);
+//                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoComputeActivity");
+//                startActivity(intent);
+                Intent it = new Intent(EditActivity.this, ReportGenActivity.class);
+                it.putExtra("path", pathAlbum);
+                it.putExtra("imageUri", uri.toString());
+                startActivity(it);
             }
         });
     }
