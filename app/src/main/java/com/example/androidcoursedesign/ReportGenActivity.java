@@ -3,6 +3,8 @@ package com.example.androidcoursedesign;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,8 +27,11 @@ public class ReportGenActivity extends AppCompatActivity {
 
 //        显示图片
         ImageView pictureIdentified = findViewById(R.id.pattern_cho_Img);
-        pictureIdentified.setImageURI(Uri.fromFile(file));
-        pictureIdentified.setRotation(90);
+        Bitmap bitmap= BitmapFactory.decodeFile(path);
+        bitmap=AlbumActivity.rotateBimap(this,bitmap);
+        pictureIdentified.setImageBitmap(bitmap);//将图片放置在控件上
+        //pictureIdentified.setImageURI(Uri.fromFile(file));
+        //pictureIdentified.setRotation(90);
 
 //        返回键
         Button cancel = findViewById(R.id.pattern_choose_cancel_frame);
@@ -34,7 +39,6 @@ public class ReportGenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-
             }
         });
 

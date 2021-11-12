@@ -1,20 +1,20 @@
 package com.example.androidcoursedesign;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,8 +25,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-
 public class AlbumActivity extends AppCompatActivity {
     // go to edit window
     private final String curAct= "AlbumActivity";
@@ -34,31 +32,54 @@ public class AlbumActivity extends AppCompatActivity {
 
     private  ImageView albumsPicture;
     public static final int CHOOSE_PHOTO = 2;
-    //private Button pestDection=null;
-    //private Button pictureSave=null;
-    //private Intent intent2;
+    private  String pathAlbum;
+    private Uri uri=null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.album_window);
-        albumsPicture = super.findViewById(R.id.album_pic1);
-//        Button edit=findViewById(R.id.album_edit);
-//        edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                editAct=new Intent(AlbumActivity.this,EditActivity.class);
-//                //sent data to editWindow
-//                editAct.putExtra("FromWhich",curAct);
-//                startActivity(editAct);
-//            }
-//        });
+        //
+        albumsPicture = super.findViewById(R.id.show_album_pic);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PHOTO);
         } else {
             openAlbum();
         }
+
+        Button cancel=findViewById(R.id.pic_cancel_frame);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        // 向后传递图片的路径
+        Button confirm = findViewById(R.id.album_func_confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(AlbumActivity.this, ReportGenActivity.class);
+                it.putExtra("path", pathAlbum);
+                it.putExtra("imageUri", uri.toString());
+                startActivity(it);
+            }
+        });
+
+        Button edit= findViewById(R.id.album_edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(AlbumActivity.this, EditActivity.class);
+                it.putExtra("path", pathAlbum);
+                it.putExtra("imageUri", uri.toString());
+                startActivity(it);
+            }
+        });
+
+
+
     }
 
     private void openAlbum() {
@@ -89,7 +110,7 @@ public class AlbumActivity extends AppCompatActivity {
     @TargetApi(19)
     private void handleImageOnKitkat(Intent data) {
         String imagePath = null;
-        Uri uri = data.getData();
+        uri = data.getData();
         if (DocumentsContract.isDocumentUri(this, uri)) {
             //如果是document类型的uri，则通过document id处理
             String docId = DocumentsContract.getDocumentId(uri);
@@ -114,7 +135,7 @@ public class AlbumActivity extends AppCompatActivity {
     }
 
     private void handleImageBeforeKitKat(Intent data){
-        Uri uri=data.getData();
+        uri=data.getData();
         String imagePath=getImagePath(uri,null);
         displayImage(imagePath);
     }
@@ -128,25 +149,26 @@ public class AlbumActivity extends AppCompatActivity {
             }
             cursor.close();
         }
+        pathAlbum=path;
         return path;
     }
+
     private void displayImage(String imagePath){
         if(imagePath!=null){
             Bitmap bitmap=BitmapFactory.decodeFile(imagePath);
+            bitmap= rotateBimap(this, bitmap);
             albumsPicture.setImageBitmap(bitmap);//将图片放置在控件上
-            //transForm(bitmap);
         }else {
             Toast.makeText(this,"得到图片失败",Toast.LENGTH_SHORT).show();
         }
     }
 
-    // TODO: BUG HERE
-    private void transForm(Bitmap bitmap){
-        ByteArrayOutputStream bs = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,50,bs);
-        Intent intent_trans = new Intent(AlbumActivity.this,EditActivity.class);
-        intent_trans.putExtra("byteArray",bs.toByteArray());
-        startActivity(intent_trans);
+    // 旋转一个bitmap
+    static public Bitmap rotateBimap(Context context, Bitmap srcBitmap) {
+        Matrix matrix = new Matrix();
+        matrix.reset();
+        matrix.setRotate((float) 90);
+        return Bitmap.createBitmap(srcBitmap, 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight(), matrix, true);
     }
 
    }

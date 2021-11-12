@@ -33,56 +33,48 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <!--标题-->
+
+    <!--select 设计-->
+
+
+    <!--上分割线-->
+
     <TextView
         android:id="@+id/do_edit_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/do_edit_title"
-        android:textSize="40sp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/do_edit_upper_dirver"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/do_edit_upper_dirver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.318"
         app:layout_constraintStart_toEndOf="@+id/do_edit_cancel"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.615" />
 
-    <!--select 设计-->
-    <ImageView
-        android:id="@+id/do_edit_select"
-        android:layout_width="@dimen/cross_size"
-        android:layout_height="@dimen/cross_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="@android:drawable/ic_delete" />
-
-
-    <Button
-        android:id="@+id/do_select_frame"
-        android:layout_width="@dimen/cross_size"
-        android:layout_height="@dimen/cross_size"
-        android:background="@drawable/cir_rectangle"
-        app:backgroundTint="@null"
-
-        app:layout_constraintBottom_toBottomOf="@+id/do_edit_select"
-        app:layout_constraintEnd_toEndOf="@+id/do_edit_select"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/do_edit_select"
-        app:layout_constraintTop_toTopOf="@+id/do_edit_select"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <!--上分割线-->
     <View
         android:id="@+id/do_edit_upper_dirver"
         android:layout_width="409dp"
         android:layout_height="@dimen/devider_size"
         android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/do_edit_select"
-        app:layout_constraintVertical_bias="0.021" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.109" />
+
+    <ImageView
+        android:id="@+id/Picture"
+        android:layout_width="382dp"
+        android:layout_height="483dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="51dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/do_edit_upper_dirver"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
