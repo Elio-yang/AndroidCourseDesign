@@ -77,14 +77,13 @@
     <!--显示图片-->
 
     <ImageView
-        android:id="@+id/album_pic1"
+        android:id="@+id/show_album_pic"
 
-        android:layout_width="411dp"
-        android:layout_height="552dp"
+        android:layout_width="413dp"
+        android:layout_height="529dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/pic_choose_lower_divider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pic_choose_upper_dirver"
         app:layout_constraintVertical_bias="0.0" />
@@ -107,7 +106,7 @@
         app:layout_constraintVertical_bias="0.589" />
 
     <Button
-        android:id="@+id/func_confirm"
+        android:id="@+id/album_func_confirm"
         android:layout_width="112dp"
         android:layout_height="59dp"
         android:layout_marginBottom="16dp"

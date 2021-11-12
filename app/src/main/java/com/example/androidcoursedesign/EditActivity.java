@@ -1,6 +1,6 @@
 package com.example.androidcoursedesign;
+import com.example.androidcoursedesign.EditActivity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,12 +31,23 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+
+
+
+
+//import com.bumptech.glide.load.engine.DiskCacheStrategy;
+//import com.bumptech.glide.request.RequestOptions;
+
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 
 // TODO :
@@ -49,36 +61,43 @@ public class EditActivity extends AppCompatActivity {
     //此处可以添加更多变量记录
     Collection<String> choice= new ArrayList<>();
     private Bitmap bitmap;
-    private ImageView imv;  //还需绑定控件
+    private ImageView imv;
+    private String pathAlbum;
+    public static final int PICTURE_CROPPING_CODE = 200;
+    private Uri uri=null;
+    private String savePath;
+    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_window);
 
-
-        {
-            //通过相册 到的编辑界面
-            Intent intentFromAlbum = getIntent();
-            if (intentFromAlbum.hasExtra("byteArray")) {
-                imv = new ImageView(this);
-                bitmap = BitmapFactory.decodeByteArray(intentFromAlbum.getByteArrayExtra("byteArry"), 0, intentFromAlbum.getByteArrayExtra("byteArray").length);
-                imv.setImageBitmap(bitmap);
-            }
+        //通过相册到的编辑界面
+        pathAlbum = getIntent().getStringExtra("path");
+        uri=Uri.parse(getIntent().getStringExtra("imageUri"));
+        imv = findViewById(R.id.takePicture);
+        if(pathAlbum!=null){
+            Bitmap bitmap=BitmapFactory.decodeFile(pathAlbum);
+            bitmap=AlbumActivity.rotateBimap(this,bitmap);
+            imv.setImageBitmap(bitmap);//将图片放置在控件上
+        }else {
+            Toast.makeText(this,"得到图片失败",Toast.LENGTH_SHORT).show();
         }
 
 
-        Intent intent = getIntent();
-        ImageView tookPic = findViewById(R.id.takePicture);
-        String path = intent.getStringExtra("path");
-        // TODO:
-        //    页面需要加载出上层活动选择的照片
-        //      同preview不知道可不可行
-        if(path != null){
-            tookPic.setImageURI(Uri.fromFile(new File(path)));
-            //照片也进行一个旋转
-            tookPic.setRotation(90);
-        }
+//        Intent intent = getIntent();
+//        ImageView tookPic = findViewById(R.id.takePicture);
+//        String path = intent.getStringExtra("path");
+//        // TODO:
+//        //    页面需要加载出上层活动选择的照片
+//        //      同preview不知道可不可行
+//        if(path != null){
+//            tookPic.setImageURI(Uri.fromFile(new File(path)));
+//            //照片也进行一个旋转
+//            //tookPic.setRotation(90);
+//        }
 
 
         //模式按钮加载菜单选项
@@ -107,26 +126,14 @@ public class EditActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         //TODO:
         //  对应进入到裁剪操作的活动中去
         Button cutPic = findViewById(R.id.func_cut);
         cutPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoEditActivity");
-                //startActivity(intent);
-
-                // 从相册过来的 bitmap
-                // TODO : BUG EXITS FROM UPPER ACTIVITY(ALBUM)
-                {
-                    Intent intentCut = new Intent(EditActivity.this, DoEditActivity.class);
-                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bs);
-                    intentCut.putExtra("byteArray", bs.toByteArray());
-                    startActivity(intentCut);
-                }
-
+                pictureCropping(uri);
             }
         });
 
@@ -201,4 +208,78 @@ public class EditActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * 图片剪裁
+     *
+     * @param uri 图片uri
+     */
+    private void pictureCropping(Uri uri) {
+        // 调用系统中自带的图片剪裁
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        // 返回裁剪后的数据
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, PICTURE_CROPPING_CODE);
+    }
+
+    /**
+     * 返回Activity结果
+     *
+     * @param requestCode 请求码
+     * @param resultCode  结果码
+     * @param data        数据
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICTURE_CROPPING_CODE && resultCode == RESULT_OK) {
+            //图片剪裁返回
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                //在这里获得了剪裁后的Bitmap对象，可以用于上传
+                Bitmap image = bundle.getParcelable("data");
+                //设置到ImageView上
+                //Glide.with(this).load(image).apply(requestOptions).into(imv);
+                imv.setImageBitmap(image);
+                savePath=saveFile(image);
+            }
+        }
+    }
+
+
+    private String saveFile(Bitmap bitmap) {
+        //获取内部存储状态
+        String state = Environment.getExternalStorageState();
+        //如果状态不是mounted，无法读写
+        if (!state.equals(Environment.MEDIA_MOUNTED)) {
+            return "";
+        }
+        try {
+            String fileName="";
+            fileName = System.currentTimeMillis() + ".jpg";
+            File file=File.createTempFile(fileName,"");
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+            Log.e("TEST_FILE",file.getAbsolutePath());
+            //保存图片后发送广播通知更新数据库
+            Uri uri = Uri.fromFile(file);
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }
