@@ -62,6 +62,7 @@ public class EditActivity extends AppCompatActivity {
     Collection<String> choice= new ArrayList<>();
     private Bitmap bitmap;
     private ImageView imv;
+    private int weatherNumber;
     private String pathAlbum;
     public static final int PICTURE_CROPPING_CODE = 200;
     private Uri uri=null;
@@ -73,9 +74,11 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_window);
+        weatherNumber=0;
 
         //通过相册到的编辑界面
         pathAlbum = getIntent().getStringExtra("path");
+        savePath=pathAlbum;
         uri=Uri.parse(getIntent().getStringExtra("imageUri"));
         imv = findViewById(R.id.takePicture);
         if(pathAlbum!=null){
@@ -109,8 +112,8 @@ public class EditActivity extends AppCompatActivity {
         mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                showModeChioce(view);
-                showPopupWindow(view);
+                showModeChioce(view);
+                //showPopupWindow(view);
             }
         });
 
@@ -148,7 +151,9 @@ public class EditActivity extends AppCompatActivity {
 //                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoComputeActivity");
 //                startActivity(intent);
                 Intent it = new Intent(EditActivity.this, ReportGenActivity.class);
-                it.putExtra("path", pathAlbum);
+                it.putExtra("path", savePath);
+                Toast.makeText(EditActivity.this,Integer.toString(weatherNumber),Toast.LENGTH_SHORT).show();
+                it.putExtra("pattern",weatherNumber);
                 it.putExtra("imageUri", uri.toString());
                 startActivity(it);
             }
@@ -169,7 +174,12 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 weather=(String) menuItem.getTitle();
-                Toast.makeText(getApplicationContext(),weather,Toast.LENGTH_SHORT).show();
+
+                if(weather.equals("晴天")){
+                    weatherNumber=0;
+                }else if(weather.equals("阴天")){
+                    weatherNumber=1;
+                }
                 return false;
             }
         });
@@ -220,6 +230,7 @@ public class EditActivity extends AppCompatActivity {
      */
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
+        //Toast.makeText(EditActivity.this, uri.toString(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
