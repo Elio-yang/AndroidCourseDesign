@@ -28,14 +28,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ShowReportActivity extends AppCompatActivity {
-
+    //描述污染等级的字符串
+    private String levelDesc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_report_window);
+
         Intent intent= getIntent();
         ImageView smokePic = findViewById(R.id.smokePic);
         String path = intent.getStringExtra("path");
+        levelDesc = intent.getStringExtra("level");
+
+
         if(path != null){
             smokePic.setImageURI(Uri.fromFile(new File(path)));
             //照片也进行一个旋转

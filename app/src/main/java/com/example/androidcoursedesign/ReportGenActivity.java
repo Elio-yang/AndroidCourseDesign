@@ -26,14 +26,16 @@ public class ReportGenActivity extends AppCompatActivity {
     private ImageView pictureIdentified;
     private int pattern;
     private String savePath=null;
+    private String path=null;
     private int level;
+    private String levelDesc="无污染";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_gen_window);
 
-        String path = getIntent().getStringExtra("path");
+        path = getIntent().getStringExtra("path");
         pattern=getIntent().getIntExtra("pattern",0);
         Toast.makeText(ReportGenActivity.this,Integer.toString(pattern),Toast.LENGTH_SHORT).show();
         uri=Uri.parse(getIntent().getStringExtra("imageUri"));
@@ -142,27 +144,33 @@ public class ReportGenActivity extends AppCompatActivity {
                 }
                 switch (level){
                     case 0:
-                        Toast.makeText(ReportGenActivity.this, "无污染", Toast.LENGTH_SHORT).show();
+                        levelDesc="无污染";
                         break;
                     case 1:
-                        Toast.makeText(ReportGenActivity.this, "较轻污染", Toast.LENGTH_SHORT).show();
+                         levelDesc="较轻污染";
                         break;
                     case 2:
-                        Toast.makeText(ReportGenActivity.this, "轻度污染", Toast.LENGTH_SHORT).show();
+                        levelDesc="轻度污染";
                         break;
                     case 3:
-                        Toast.makeText(ReportGenActivity.this, "中度污染", Toast.LENGTH_SHORT).show();
+                        levelDesc="中度污染";
                         break;
                     case 4:
-                        Toast.makeText(ReportGenActivity.this, "较重污染", Toast.LENGTH_SHORT).show();
+                        levelDesc="较重污染";
                         break;
                     case 5:
-                        Toast.makeText(ReportGenActivity.this, "重度污染", Toast.LENGTH_SHORT).show();
+                        levelDesc="重度污染";
                         break;
                     case 6:
-                        Toast.makeText(ReportGenActivity.this, "重度污染", Toast.LENGTH_SHORT).show();
+                        levelDesc="重度污染";
                         break;
                 }
+                Intent showInt=new Intent(ReportGenActivity.this,ShowReportActivity.class);
+                showInt.putExtra("level",levelDesc);
+                showInt.putExtra("path",path);
+                showInt.putExtra("imageUri",uri);
+                startActivity(showInt);
+
             }
         }
     }
