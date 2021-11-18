@@ -26,6 +26,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.SimpleFormatter;
 
 public class ShowReportActivity extends AppCompatActivity {
     //描述污染等级的字符串
@@ -40,26 +43,32 @@ public class ShowReportActivity extends AppCompatActivity {
         String path = intent.getStringExtra("path");
         levelDesc = intent.getStringExtra("level");
 
+        SimpleDateFormat formatter   =   new   SimpleDateFormat   ("yyyy年MM月dd日   HH:mm:ss");
+        Date curDate =  new Date(System.currentTimeMillis());
+        String date=formatter.format(curDate);
 
         if(path != null){
             smokePic.setImageURI(Uri.fromFile(new File(path)));
-            //照片也进行一个旋转
-//            smokePic.setRotation(90);
+          smokePic.setRotation(90);
         }
 
-//        TextView time = findViewById(R.id.time);
-//        TextView location =findViewById(R.id.location);
-//        TextView mode = findViewById(R.id.mode);
-//        TextView status = findViewById(R.id.status);
-//        TextView level = findViewById(R.id.level);
-//        TextView reach = findViewById(R.id.reach);
+        TextView time = findViewById(R.id.time);
+        TextView location =findViewById(R.id.location);
+        TextView mode = findViewById(R.id.mode);
+        TextView status = findViewById(R.id.status);
+        TextView level = findViewById(R.id.level);
+        TextView reach = findViewById(R.id.reach);
 //
-//        time.append(intent.getStringExtra("time"));
-//        location.append(intent.getStringExtra("location"));
-//        mode.append(intent.getStringExtra("mode"));
+        time.append(date);
+        location.append("吉大计算机楼");
+        mode.append(intent.getStringExtra("pattern"));
 //        status.append(intent.getStringExtra("status"));
-//        level.append(intent.getStringExtra("level"));
-//        reach.append(intent.getStringExtra("reach"));
+          level.append(levelDesc);
+          if(levelDesc.equals("无污染")||levelDesc.equals("较轻污染"))
+        reach.append("达标");
+          else
+              reach.append("不达标");
+
 
         Button cancel = findViewById(R.id.to_main_frame);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +86,7 @@ public class ShowReportActivity extends AppCompatActivity {
 //                showReporChoice(view);
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(path)));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(shortCut(view)));
                 shareIntent.setType("image/jpeg");
                 startActivity(shareIntent);
             }
@@ -86,7 +95,7 @@ public class ShowReportActivity extends AppCompatActivity {
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(view);
+                save(shortCut(view));
             }
         });
     }
@@ -103,7 +112,7 @@ public class ShowReportActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-    private void save(View thisview){
+    private File shortCut(View thisview){
             View view = getWindow().getDecorView();
             //允许当前窗口保存缓存信息
             view.setDrawingCacheEnabled(true);
@@ -132,10 +141,11 @@ public class ShowReportActivity extends AppCompatActivity {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 
             Toast.makeText(this, "请至权限中心打开应用相册权限", Toast.LENGTH_SHORT).show();
+            return null;
         } else {
 
             // 新建目录appDir，并把图片存到其下
-            File appDir = new File(getExternalFilesDir(null).getPath()+ "BarcodeBitmap");
+            File appDir = new File(getExternalFilesDir(null).getPath() + "BarcodeBitmap");
             if (!appDir.exists()) {
 
                 appDir.mkdir();
@@ -155,22 +165,23 @@ public class ShowReportActivity extends AppCompatActivity {
 
                 e.printStackTrace();
             }
-
-            // 把file里面的图片插入到系统相册中
-            try {
-
-                MediaStore.Images.Media.insertImage(getContentResolver(),
-                        file.getAbsolutePath(), fileName, null);
-            } catch (FileNotFoundException e) {
-
-                e.printStackTrace();
-            }
-
-            Toast.makeText(this, "保存"+fileName, Toast.LENGTH_SHORT).show();
-
-            // 通知相册更新
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+            return file;
         }
     }
 
+    private void  save(File file){
+// 把file里面的图片插入到系统相册中
+        try {
+            MediaStore.Images.Media.insertImage(getContentResolver(),
+                    file.getAbsolutePath(), file.getName(), null);
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        }
+
+        Toast.makeText(this, "保存"+file.getName(), Toast.LENGTH_SHORT).show();
+
+        // 通知相册更新
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+    }
 }
