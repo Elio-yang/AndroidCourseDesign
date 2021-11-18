@@ -169,6 +169,10 @@ public class ReportGenActivity extends AppCompatActivity {
                 showInt.putExtra("level",levelDesc);
                 showInt.putExtra("path",path);
                 showInt.putExtra("imageUri",uri);
+                if(pattern==0)
+                    showInt.putExtra("pattern","sunny");
+                else
+                    showInt.putExtra("pattern","cloudy");
                 startActivity(showInt);
 
             }
