@@ -28,9 +28,6 @@
             android:name=".ReportGenActivity"
             android:exported="true" />
         <activity
-            android:name=".DoCompute"
-            android:exported="true" />
-        <activity
             android:name=".DoEditActivity"
             android:exported="true" />
         <activity

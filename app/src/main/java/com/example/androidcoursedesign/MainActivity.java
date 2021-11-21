@@ -10,13 +10,11 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.*;
@@ -25,9 +23,8 @@ import java.io.*;
 public class MainActivity extends AppCompatActivity {
     private SurfaceView surfaceViewPreview;
     private Camera camera = null;
-    //public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
-    private Intent intent_1;
+    private Intent intentAlbum;
 
     private final SurfaceHolder.Callback cpHolderCallback = new SurfaceHolder.Callback() {
         //surface创建时触发，开启加载
@@ -35,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
         public void surfaceCreated(SurfaceHolder holder) {
             startPreview();
         }
+
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
         }
+
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
             stopPreview();
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        intent_1=new Intent(this,AlbumActivity.class);//创建跳转到Albums显示的窗口的Intent
+        intentAlbum = new Intent(this, AlbumActivity.class);//创建跳转到Albums显示的窗口的Intent
         setContentView(R.layout.main_window);
         bindViews();
         alumOperation();
@@ -56,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAlbum() {
-        startActivity(intent_1);//进入album的窗口界面
+        startActivity(intentAlbum);//进入album的窗口界面
     }
 
-    private void alumOperation(){
+    private void alumOperation() {
         Button chooseFromAlbum = findViewById(R.id.album_frame);
         chooseFromAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     //停止预览
     private void stopPreview() {
         camera.stopPreview();
@@ -106,13 +106,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void takeAShot( ) {
+    private void takeAShot() {
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 String path = "";
-                String fileName="";
-                path=saveFile(data,fileName);
+                String fileName = "";
+                path = saveFile(data, fileName);
                 if (!path.equals("")) {
                     Intent it = new Intent(MainActivity.this, PreviewActivity.class);
                     it.putExtra("path", path);
@@ -124,34 +124,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     //    TODO:
     //    保存在哪儿了？
     //    是不是需要更改命名方式？
     //    能不能存到系统相册？
-    private String saveFile(byte[] bytes,String fileName) {
+    private String saveFile(byte[] bytes, String fileName) {
         try {
-//            File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
-//            if (!appDir.exists()) {
-//                appDir.mkdir();
-//            }
-
             fileName = System.currentTimeMillis() + ".jpg";
-            File file=File.createTempFile(fileName,"");
-//          File file = new File(appDir, fileName);
+            File file = File.createTempFile(fileName, "");
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.flush();
             fos.close();
-            Log.e("TEST_FILE",file.getAbsolutePath());
+            //      Log.e("TEST_FILE", file.getAbsolutePath());
             //     /data/data/com.example.androidcoursedesign/cache/img-xxxxx.png
             MainActivity.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(file.getPath()))));
             return file.getAbsolutePath();
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "";
     }
-
 }

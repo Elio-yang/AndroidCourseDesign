@@ -40,7 +40,7 @@ public class AlbumActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.album_window);
-        //
+
         albumsPicture = super.findViewById(R.id.show_album_pic);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PHOTO);
@@ -55,6 +55,7 @@ public class AlbumActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         // 向后传递图片的路径
         Button confirm = findViewById(R.id.album_func_confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +78,6 @@ public class AlbumActivity extends AppCompatActivity {
                 startActivity(it);
             }
         });
-
-
 
     }
 
@@ -152,7 +151,6 @@ public class AlbumActivity extends AppCompatActivity {
         pathAlbum=path;
         return path;
     }
-
     private void displayImage(String imagePath){
         if(imagePath!=null){
             Bitmap bitmap=BitmapFactory.decodeFile(imagePath);

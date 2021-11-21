@@ -90,19 +90,6 @@ public class EditActivity extends AppCompatActivity {
         }
 
 
-//        Intent intent = getIntent();
-//        ImageView tookPic = findViewById(R.id.takePicture);
-//        String path = intent.getStringExtra("path");
-//        // TODO:
-//        //    页面需要加载出上层活动选择的照片
-//        //      同preview不知道可不可行
-//        if(path != null){
-//            tookPic.setImageURI(Uri.fromFile(new File(path)));
-//            //照片也进行一个旋转
-//            //tookPic.setRotation(90);
-//        }
-
-
         //模式按钮加载菜单选项
         // TODO:
         //   菜单选择的参数需要保存，并影响后续算法
@@ -113,15 +100,13 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showModeChioce(view);
-                //showPopupWindow(view);
             }
         });
 
-        //TODO:
+
         // 取消操作的响应
-        // 需要上一个活动发消息 告诉是那个活动来到的这( 数字参数形式 )
         // 从而可以回退到正确的上层活动
-        // 使用Intent
+
         Button editCancel=findViewById(R.id.edit_cancel_frame);
         editCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +115,6 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-        //TODO:
         //  对应进入到裁剪操作的活动中去
         Button cutPic = findViewById(R.id.func_cut);
         cutPic.setOnClickListener(new View.OnClickListener() {
@@ -140,19 +124,16 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-        // TODO:
+
         //  编辑操作得到确认
         //  进到方式选择的活动中去
         Button confirmEdit = findViewById(R.id.func_confirm);
         confirmEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                intent.putExtra("Mode",weather);
-//                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoComputeActivity");
-//                startActivity(intent);
                 Intent it = new Intent(EditActivity.this, ReportGenActivity.class);
                 it.putExtra("path", savePath);
-                Toast.makeText(EditActivity.this,Integer.toString(weatherNumber),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(EditActivity.this,Integer.toString(weatherNumber),Toast.LENGTH_SHORT).show();
                 it.putExtra("pattern",weatherNumber);
                 it.putExtra("imageUri", uri.toString());
                 startActivity(it);
@@ -161,7 +142,6 @@ public class EditActivity extends AppCompatActivity {
     }
 
 
-    // TODO:
     //    模式按钮的菜单响应
     //    加入选项值，不同的选项给后续算法不同的参数
     private void  showModeChioce(View thisView){
@@ -174,7 +154,6 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 weather=(String) menuItem.getTitle();
-
                 if(weather.equals("晴天")){
                     weatherNumber=0;
                 }else if(weather.equals("阴天")){

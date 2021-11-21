@@ -67,13 +67,6 @@ public class PreviewActivity extends AppCompatActivity {
                 it1.putExtra("imageUri", uri.toString());
                 startActivity(it1);
 
-                //TODO :
-                //    进入编辑视图
-                //    wj：加了一下fromwhich信息传送，原来没做
-                //Intent intent=new Intent(PreviewActivity.this,EditActivity.class);
-                //intent.putExtra("FromWhich",curAct);
-                //startActivity(intent);
-
             }
         });
 
@@ -111,7 +104,7 @@ public class PreviewActivity extends AppCompatActivity {
         try {
             String bitpath = MediaStore.Images.Media.insertImage(context.getContentResolver(),
                     file.getAbsolutePath(), fileName, null);
-                    Toast.makeText(context, "保存照片成功", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "保存照片成功", Toast.LENGTH_SHORT).show();
             uri=Uri.parse(bitpath);
             //Toast.makeText(PreviewActivity.this, uri3.toString(), Toast.LENGTH_LONG).show();
             picpath=getRealPathFromURI(uri);

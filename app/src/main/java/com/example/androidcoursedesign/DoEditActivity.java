@@ -21,10 +21,9 @@ public class DoEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.do_edit_window);
 
-
         pathAlbum = getIntent().getStringExtra("path");
-        //uri=getMediaUriFromPath(pathAlbum);
         imv = findViewById(R.id.Picture);
+
         if(pathAlbum!=null){
             bitmap=BitmapFactory.decodeFile(pathAlbum);
             bitmap=AlbumActivity.rotateBimap(this,bitmap);
@@ -40,6 +39,7 @@ public class DoEditActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 }

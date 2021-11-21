@@ -37,7 +37,7 @@ public class ReportGenActivity extends AppCompatActivity {
 
         path = getIntent().getStringExtra("path");
         pattern=getIntent().getIntExtra("pattern",0);
-        Toast.makeText(ReportGenActivity.this,Integer.toString(pattern),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ReportGenActivity.this,Integer.toString(pattern),Toast.LENGTH_SHORT).show();
         uri=Uri.parse(getIntent().getStringExtra("imageUri"));
         File file=new File(path);
 
@@ -46,8 +46,6 @@ public class ReportGenActivity extends AppCompatActivity {
         Bitmap bitmap= BitmapFactory.decodeFile(path);
         bitmap=AlbumActivity.rotateBimap(this,bitmap);
         pictureIdentified.setImageBitmap(bitmap);//将图片放置在控件上
-        //pictureIdentified.setImageURI(Uri.fromFile(file));
-        //pictureIdentified.setRotation(90);
 
 //        返回键
         Button cancel = findViewById(R.id.pattern_choose_cancel_frame);
@@ -62,7 +60,6 @@ public class ReportGenActivity extends AppCompatActivity {
         regionChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                待解决图片裁剪问题
                 pictureCropping(uri);
             }
         });
