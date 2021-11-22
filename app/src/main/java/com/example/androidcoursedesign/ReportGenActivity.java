@@ -10,7 +10,10 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+<<<<<<< HEAD
 import android.provider.MediaStore;
+=======
+>>>>>>> master
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +66,10 @@ public class ReportGenActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                待解决图片裁剪问题
                 pictureCropping(uri);
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
             }
         });
     }
@@ -75,9 +81,12 @@ public class ReportGenActivity extends AppCompatActivity {
         int alllevel=0;
         int row=0;
         int col=0;
+<<<<<<< HEAD
         int tem=0;
         int le=0;
 
+=======
+>>>>>>> master
         for(;row<bitmapHeight;row++){
             for(col=0;col<bitmapWidth;col++){
                 int pixel = picCalculated.getPixel(col, row);// ARGB
@@ -87,6 +96,7 @@ public class ReportGenActivity extends AppCompatActivity {
                 int max=red;
                 if(green>max)
                     max=green;
+<<<<<<< HEAD
                 if(blue>max)
                     max=blue;
 
@@ -103,6 +113,24 @@ public class ReportGenActivity extends AppCompatActivity {
                 else if(max>0&&max<=36)
                     alllevel+=5;
 
+=======
+                if(blue<max)
+                    max=green;
+                if(max>225&&max<=255)
+                    alllevel+=0;
+                else if(max>175&&max<=225)
+                    alllevel+=1;
+                else if(max>140&&max<=175)
+                    alllevel+=2;
+                else if(max>100&&max<=140)
+                    alllevel+=3;
+                else if(max>70&&max<=100)
+                    alllevel+=4;
+                else if(max>45&&max<=70)
+                    alllevel+=5;
+                else
+                    alllevel+=6;
+>>>>>>> master
             }
         }
         level=alllevel/(bitmapHeight*bitmapWidth);
@@ -150,7 +178,11 @@ public class ReportGenActivity extends AppCompatActivity {
                         Toast.makeText(ReportGenActivity.this, "无污染", Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
+<<<<<<< HEAD
                         Toast.makeText(ReportGenActivity.this, "轻微污染", Toast.LENGTH_SHORT).show();
+=======
+                        Toast.makeText(ReportGenActivity.this, "较轻污染", Toast.LENGTH_SHORT).show();
+>>>>>>> master
                         break;
                     case 2:
                         Toast.makeText(ReportGenActivity.this, "轻度污染", Toast.LENGTH_SHORT).show();
@@ -164,6 +196,12 @@ public class ReportGenActivity extends AppCompatActivity {
                     case 5:
                         Toast.makeText(ReportGenActivity.this, "重度污染", Toast.LENGTH_SHORT).show();
                         break;
+<<<<<<< HEAD
+=======
+                    case 6:
+                        Toast.makeText(ReportGenActivity.this, "重度污染", Toast.LENGTH_SHORT).show();
+                        break;
+>>>>>>> master
                 }
             }
         }
