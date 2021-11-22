@@ -3,6 +3,7 @@ import com.example.androidcoursedesign.EditActivity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -14,8 +15,10 @@ import android.net.Uri;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -62,20 +65,27 @@ public class EditActivity extends AppCompatActivity {
     Collection<String> choice= new ArrayList<>();
     private Bitmap bitmap;
     private ImageView imv;
+    private int weatherNumber;
     private String pathAlbum;
     public static final int PICTURE_CROPPING_CODE = 200;
     private Uri uri=null;
+    File mOnputFile;
     private String savePath;
     Intent intent;
+
+    String mFilePath="//storage/emulated/0/Pictures";
+    String mFileCropName="xixi";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_window);
+        weatherNumber=0;
 
         //通过相册到的编辑界面
         pathAlbum = getIntent().getStringExtra("path");
+        savePath=pathAlbum;
         uri=Uri.parse(getIntent().getStringExtra("imageUri"));
         imv = findViewById(R.id.takePicture);
         if(pathAlbum!=null){
@@ -109,8 +119,8 @@ public class EditActivity extends AppCompatActivity {
         mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                showModeChioce(view);
-                showPopupWindow(view);
+                showModeChioce(view);
+                //showPopupWindow(view);
             }
         });
 
@@ -148,7 +158,9 @@ public class EditActivity extends AppCompatActivity {
 //                intent.setClassName("com.example.androidcoursedegin","com.example.androidcoursedegin.DoComputeActivity");
 //                startActivity(intent);
                 Intent it = new Intent(EditActivity.this, ReportGenActivity.class);
-                it.putExtra("path", pathAlbum);
+                it.putExtra("path", savePath);
+                Toast.makeText(EditActivity.this,Integer.toString(weatherNumber),Toast.LENGTH_SHORT).show();
+                it.putExtra("pattern",weatherNumber);
                 it.putExtra("imageUri", uri.toString());
                 startActivity(it);
             }
@@ -169,7 +181,12 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 weather=(String) menuItem.getTitle();
-                Toast.makeText(getApplicationContext(),weather,Toast.LENGTH_SHORT).show();
+
+                if(weather.equals("晴天")){
+                    weatherNumber=0;
+                }else if(weather.equals("阴天")){
+                    weatherNumber=1;
+                }
                 return false;
             }
         });
@@ -220,7 +237,14 @@ public class EditActivity extends AppCompatActivity {
      */
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
+        //Toast.makeText(EditActivity.this, uri.toString(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent("com.android.camera.action.CROP");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", new File(uri.getPath()));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+
         intent.setDataAndType(uri, "image/*");
         // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
         intent.putExtra("crop", "true");
@@ -231,7 +255,17 @@ public class EditActivity extends AppCompatActivity {
         intent.putExtra("outputX", 150);
         intent.putExtra("outputY", 150);
         // 返回裁剪后的数据
+
+        if (Build.VERSION.SDK_INT >= 30) {
+            //android 11以上，将文件创建在公有目录
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath();
+            //storage/emulated/0/Pictures
+            mOnputFile = new File(path, System.currentTimeMillis() + ".png");
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse("file://" + mOnputFile.getAbsolutePath()));
+        }
+
         intent.putExtra("return-data", true);
+
         startActivityForResult(intent, PICTURE_CROPPING_CODE);
     }
 
@@ -247,6 +281,7 @@ public class EditActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICTURE_CROPPING_CODE && resultCode == RESULT_OK) {
             //图片剪裁返回
+
             Bundle bundle = data.getExtras();
             if (bundle != null) {
                 //在这里获得了剪裁后的Bitmap对象，可以用于上传
@@ -254,6 +289,7 @@ public class EditActivity extends AppCompatActivity {
                 //设置到ImageView上
                 //Glide.with(this).load(image).apply(requestOptions).into(imv);
                 imv.setImageBitmap(image);
+
                 savePath=saveFile(image);
             }
         }
