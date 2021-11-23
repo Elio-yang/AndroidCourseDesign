@@ -70,7 +70,7 @@ public class ShowReportActivity extends AppCompatActivity {
         mode.append("手动框选");
 //        status.append(intent.getStringExtra("status"));
           level.append(levelDesc);
-          if(levelDesc.equals("无污染")||levelDesc.equals("较轻污染"))
+          if(levelDesc.equals("无污染")||levelDesc.equals("轻微污染"))
         reach.append("达标");
           else
               reach.append("不达标");

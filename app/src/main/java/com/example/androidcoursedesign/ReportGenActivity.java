@@ -81,22 +81,20 @@ public class ReportGenActivity extends AppCompatActivity {
                 int max=red;
                 if(green>max)
                     max=green;
-                if(blue<max)
-                    max=green;
-                if(max>225&&max<=255)
+                if(blue>max)
+                    max=blue;
+                if(max>231&&max<=255)
                     alllevel+=0;
-                else if(max>175&&max<=225)
+                else if(max>183&&max<=231)
                     alllevel+=1;
-                else if(max>140&&max<=175)
+                else if(max>136&&max<=183)
                     alllevel+=2;
-                else if(max>100&&max<=140)
+                else if(max>94&&max<=136)
                     alllevel+=3;
-                else if(max>70&&max<=100)
+                else if(max>36&&max<=94)
                     alllevel+=4;
-                else if(max>45&&max<=70)
+                else if(max>=0&&max<=36)
                     alllevel+=5;
-                else
-                    alllevel+=6;
             }
         }
         level=alllevel/(bitmapHeight*bitmapWidth);
@@ -137,14 +135,14 @@ public class ReportGenActivity extends AppCompatActivity {
                 //Toast.makeText(ReportGenActivity.this,"开始计算", Toast.LENGTH_LONG).show();
                 level=grayCalculate(savePath);
                 if(pattern==1){
-                    level-=2;
+                    level-=1;
                 }
                 switch (level){
                     case 0:
                         levelDesc="无污染";
                         break;
                     case 1:
-                         levelDesc="较轻污染";
+                         levelDesc="轻微污染";
                         break;
                     case 2:
                         levelDesc="轻度污染";
@@ -158,13 +156,11 @@ public class ReportGenActivity extends AppCompatActivity {
                     case 5:
                         levelDesc="重度污染";
                         break;
-                    case 6:
-                        levelDesc="重度污染";
-                        break;
+
                 }
                 Intent showInt=new Intent(ReportGenActivity.this,ShowReportActivity.class);
                 showInt.putExtra("level",levelDesc);
-                showInt.putExtra("path",path);
+                showInt.putExtra("path",savePath);
                 showInt.putExtra("imageUri",uri);
                 if(pattern==0)
                     showInt.putExtra("pattern","sunny");
