@@ -104,14 +104,15 @@
 
     <ImageView
         android:id="@+id/smokePic"
-        android:layout_width="354dp"
-        android:layout_height="287dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="257dp"
+        android:layout_height="337dp"
+        android:layout_marginBottom="92dp"
         android:background="@drawable/cir_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reach" />
+        app:layout_constraintTop_toBottomOf="@+id/reach"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/share"

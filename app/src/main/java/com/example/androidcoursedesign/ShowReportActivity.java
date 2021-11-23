@@ -49,7 +49,7 @@ public class ShowReportActivity extends AppCompatActivity {
 
         if(path != null){
             smokePic.setImageURI(Uri.fromFile(new File(path)));
-          smokePic.setRotation(90);
+            smokePic.setRotation(90);
         }
 
         TextView time = findViewById(R.id.time);
@@ -59,9 +59,15 @@ public class ShowReportActivity extends AppCompatActivity {
         TextView level = findViewById(R.id.level);
         TextView reach = findViewById(R.id.reach);
 //
+        if (intent.getStringExtra("pattern") .equals("sunny")){
+            status.append("晴天");
+        }else{
+            status.append("阴天");
+        }
+
         time.append(date);
         location.append("吉大计算机楼");
-        mode.append(intent.getStringExtra("pattern"));
+        mode.append("手动框选");
 //        status.append(intent.getStringExtra("status"));
           level.append(levelDesc);
           if(levelDesc.equals("无污染")||levelDesc.equals("较轻污染"))
